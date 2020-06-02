@@ -1,0 +1,10 @@
+{
+    "name": "The Forgewound",
+    "tier": "Legendary",
+    "type": "Pistol",
+    "tradeable": true,
+    "damage": {
+        "value": 62,
+        "types": "Arcane"
+    }
+}
