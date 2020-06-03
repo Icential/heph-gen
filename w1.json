@@ -1,10 +1,10 @@
 {
-    "name": "The Forgewound",
-    "tier": "Legendary",
+    "name": "Windy Soul",
+    "tier": "Unique",
     "type": "Pistol",
-    "tradeable": true,
+    "tradeable": false,
     "damage": {
-        "value": 62,
-        "types": "Arcane"
+        "value": 18,
+        "types": "Light"
     }
 }
