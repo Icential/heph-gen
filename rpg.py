@@ -8,13 +8,13 @@ def retry():
 def createName():
     rng = random.randint(1, 2)
     if rng == 1:
-        prerng = random.randint(0, len(names1pre) - 1)
-        sufrng = random.randint(0, len(names1suf) - 1)
-        name = names1pre[prerng] + names1suf[sufrng]
+        prerng = random.randint(0, len(pre) - 1)
+        sufrng = random.randint(0, len(suf) - 1)
+        name = pre[prerng] + suf[sufrng]
     elif rng == 2:
-        adjrng = random.randint(0, len(names2adj) - 1)
-        objrng = random.randint(0, len(names2obj) - 1)
-        name = names2adj[adjrng] + " " + names2obj[objrng]
+        adjrng = random.randint(0, len(adj) - 1)
+        objrng = random.randint(0, len(obj) - 1)
+        name = adj[adjrng] + " " + obj[objrng]
     rng0 = random.randint(1, 2)
     if rng0 == 1: return name
     elif rng0 == 2: return "The " + name
@@ -41,31 +41,45 @@ def getDamageType():
         else: return [dmg1, dmg2, dmg3, dmg4]
 
 # Prefixes
-with open("names/names1pre.txt") as f:
-    names1pre = f.read().splitlines()
+with open("names/pre.txt") as f:
+    pre = f.read().splitlines()
 # Suffixes
-with open("names/names1suf.txt") as f:
-    names1suf = f.read().splitlines()
+with open("names/suf.txt") as f:
+    suf = f.read().splitlines()
 # Adjectives
-with open("names/names2adj.txt") as f:
-    names2adj = f.read().splitlines()
+with open("names/adj.txt") as f:
+    adj = f.read().splitlines()
 # Objects
-with open("names/names2obj.txt") as f:
-    names2obj = f.read().splitlines()
+with open("names/obj.txt") as f:
+    obj = f.read().splitlines()
 tiers = ["Unique", "Rare", "Legendary", "Mythical"]
 types = ["Staff", "Wand", "Foci", "Longsword", "Sword", "Greatbow", "Shortbow", "Mace", "Dagger", "Axe", "Pistol", "Rifle", "Spear", "Relic", "Rifle"]
 damagetypes = ["Dark", "Light", "Physical", "Arcane", "Air", "Lightning", "Fire", "Water", "Air"]
 
-print("What would you like to do?")
+print("What would you like to do? (Enter \"help\" for list of commands")
 br()
 input = input().lower()
 br()
-if input == "help": print("List of commands: help, chance, pre, suf")
-elif input == "pre": print(names1pre)
-elif input == "suf": print(names1suf)
+if input == "help":
+    print(
+        "List of commands:\n\n"
+        "help| What you're seeing right now\n"
+        "chance| Calculates the chance of a single name to be generated\n"
+        "pre| Lists all the prefixes\n"
+        "suf| Lists all the suffixes\n"
+        "adj| Lists all the adjectives\n"
+        "obj| lists all the objects/nouns\n"
+        "f| Create a new JSON file with randomly generated weapon specifications\n"
+        "r| Read the JSON file created beforehand\n"
+        "n| Creates multiple randomly generated names"
+    )
+elif input == "pre": print(pre)
+elif input == "suf": print(suf)
+elif input == "adj": print(adj)
+elif input == "obj": print(obj)
 elif input == "chance":
-    chance = 1 / (len(names1pre)) * (len(names1suf))
-    print("Each name has a " + str(round(chance, 2)) + "% of being created! (1 in " + str(len(names1pre)) + ")")
+    chance = 1 / (len(pre)) * (len(suf))
+    print("Each name has a " + str(round(chance, 2)) + "% of being created! (1 in " + str(len(pre)) + ")")
 elif input == "f":
     print("Creating new item JSON...")
     f = open("w1.json", "w")
@@ -97,4 +111,9 @@ elif input == "r":
 
     )
     br()
+elif input == "n":
+    names = ""
+    for n in range(10):
+        names += createName() + ", "
+    print(names[:-2])
 else: retry()

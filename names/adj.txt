@@ -42,3 +42,5 @@ Dusky
 Blind
 Fragile
 Frail
+Twisted
+Damned
