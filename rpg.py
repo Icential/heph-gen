@@ -40,13 +40,16 @@ def getDamageType():
         if dmg1 == dmg2 or dmg1 == dmg3 or dmg1 == dmg4 or dmg2 == dmg3 or dmg2 == dmg4 or dmg3 == dmg4: return getDamageType()
         else: return [dmg1, dmg2, dmg3, dmg4]
 
-
+# Prefixes
 with open("names/names1pre.txt") as f:
     names1pre = f.read().splitlines()
+# Suffixes
 with open("names/names1suf.txt") as f:
     names1suf = f.read().splitlines()
+# Adjectives
 with open("names/names2adj.txt") as f:
     names2adj = f.read().splitlines()
+# Objects
 with open("names/names2obj.txt") as f:
     names2obj = f.read().splitlines()
 tiers = ["Unique", "Rare", "Legendary", "Mythical"]
