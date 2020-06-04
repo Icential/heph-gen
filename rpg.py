@@ -1,6 +1,6 @@
 import random, os, sys, time, json
 
-def br(): print("===============================")
+def br(): print("=============================================================================================")
 def retry(): 
     print("Invalid answer please try again")
     time.sleep(2)
@@ -56,6 +56,7 @@ tiers = ["Unique", "Rare", "Legendary", "Mythical"]
 types = ["Staff", "Wand", "Foci", "Longsword", "Sword", "Greatbow", "Shortbow", "Mace", "Dagger", "Axe", "Pistol", "Rifle", "Spear", "Relic", "Rifle"]
 damagetypes = ["Dark", "Light", "Physical", "Arcane", "Air", "Lightning", "Fire", "Water", "Air"]
 
+br()
 print("What would you like to do? (Enter \"help\" for list of commands")
 br()
 input = input().lower()
@@ -71,8 +72,9 @@ if input == "help":
         "obj| lists all the objects/nouns\n"
         "f| Create a new JSON file with randomly generated weapon specifications\n"
         "r| Read the JSON file created beforehand\n"
-        "n| Creates multiple randomly generated names"
+        "ni| Creates multiple randomly generated names i times (Ex. n10, n9, n45). If it's only n, then 10 randomly generated names are created 10 times"
     )
+    br()
 elif input == "pre": print(pre)
 elif input == "suf": print(suf)
 elif input == "adj": print(adj)
@@ -111,9 +113,17 @@ elif input == "r":
 
     )
     br()
-elif input == "n":
+elif input.startswith("n"):
+    times = input.split("n", 1)[1]
     names = ""
-    for n in range(10):
-        names += createName() + ", "
-    print(names[:-2])
+    if times == "":
+        for n in range(10):
+            names += createName() + ", "
+        print(names[:-2])
+    elif int(times) > 0:
+        if int(times) < 101:
+            for n in range(int(times)):
+                names += createName() + ", "
+            print(names[:-2])
+        else: print(times + " times is too many times!")
 else: retry()
