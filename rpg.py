@@ -39,6 +39,26 @@ def getDamageType():
         dmg1, dmg2, dmg3, dmg4 = arrRand(damagetypes), arrRand(damagetypes), arrRand(damagetypes), arrRand(damagetypes)
         if dmg1 == dmg2 or dmg1 == dmg3 or dmg1 == dmg4 or dmg2 == dmg3 or dmg2 == dmg4 or dmg3 == dmg4: return getDamageType()
         else: return [dmg1, dmg2, dmg3, dmg4]
+def wjson(i, x):
+    f = open("w" + str(i + 1) + ".json", "w")
+    name = createName()
+    tier = arrRand(tiers)
+    j = {
+        "name": name,
+        "tier": tier,
+        "type": arrRand(types),
+        "tradeable": arrRand([True, False]),
+        "damage": {
+            "value": createDamage(tier),
+            "types": getDamageType()
+        },
+        "attackspeed": arrRand(attackspeed)
+    }
+    js = json.dumps(j, indent=4)
+    f.write(js)
+    if x == 0: print("Ding ding! A new item has been created! (" + name + ")") 
+    else: None
+
 
 # Prefixes
 with open("names/pre.txt") as f:
@@ -55,9 +75,10 @@ with open("names/obj.txt") as f:
 tiers = ["Unique", "Rare", "Legendary", "Mythical"]
 types = ["Staff", "Wand", "Foci", "Longsword", "Sword", "Greatbow", "Shortbow", "Mace", "Dagger", "Axe", "Pistol", "Rifle", "Spear", "Relic", "Rifle"]
 damagetypes = ["Dark", "Light", "Physical", "Arcane", "Air", "Lightning", "Fire", "Water", "Air"]
+attackspeed = ["Sluggish", "Slow", "Normal", "Fast", "Rapid"]
 
 br()
-print("What would you like to do? (Enter \"help\" for list of commands")
+print("What would you like to do? (Enter \"help\" for list of commands)")
 br()
 input = input().lower()
 br()
@@ -82,24 +103,20 @@ elif input == "obj": print(obj)
 elif input == "chance":
     chance = 1 / (len(pre)) * (len(suf))
     print("Each name has a " + str(round(chance, 2)) + "% of being created! (1 in " + str(len(pre)) + ")")
-elif input == "f":
-    print("Creating new item JSON...")
-    f = open("w1.json", "w")
-    name = createName()
-    tier = arrRand(tiers)
-    j = {
-        "name": name,
-        "tier": tier,
-        "type": arrRand(types),
-        "tradeable": arrRand([True, False]),
-        "damage": {
-            "value": createDamage(tier),
-            "types": getDamageType()
-        }
-    }
-    js = json.dumps(j, indent=4)
-    f.write(js)
-    print("Ding ding! New item created! (" + name + ")")
+elif input.startswith("f"):
+    i = input.split("f", 1)[1]
+    if i == "" or i == "1": print("Creating a new weapon item JSON...")
+    else: print("Creating " + str(i) + " new weapon item JSONs...")
+    if input == "f": wjson(1, 0)
+    elif int(i) > 0 and int(i) < 101:
+        names = ""
+        for x in range(int(i)):
+            wjson(x, 1)
+            f = open("w" + str(x + 1) + ".json", "r").read()
+            jsload = json.loads(f)
+            names += jsload["name"] + ", "
+        print("Ding ding! " + str(i) + " new items created! (" + names[:-2] + ")")
+    else: print(i + " is too many generations!")
 elif input == "r":
     f = open("w1.json", "r").read()
     jsload = json.loads(f)
@@ -120,10 +137,9 @@ elif input.startswith("n"):
         for n in range(10):
             names += createName() + ", "
         print(names[:-2])
-    elif int(times) > 0:
-        if int(times) < 101:
-            for n in range(int(times)):
-                names += createName() + ", "
-            print(names[:-2])
-        else: print(times + " times is too many times!")
+    elif int(times) > 0 and int(times) < 101:
+        for n in range(int(times)):
+            names += createName() + ", "
+        print(names[:-2])
+    else: print(times + " times is too many times!")
 else: retry()
