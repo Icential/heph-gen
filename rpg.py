@@ -101,8 +101,9 @@ elif input == "suf": print(suf)
 elif input == "adj": print(adj)
 elif input == "obj": print(obj)
 elif input == "chance":
-    chance = 1 / (len(pre)) * (len(suf))
-    print("Each name has a " + str(round(chance, 2)) + "% of being created! (1 in " + str(len(pre)) + ")")
+    all = 4 * len(pre) * len(suf) * len(adj) * len(obj)
+    chance = 1 / all
+    print("Each name has a " + str(round(chance, 10)) + "% of being created! (1 in " + str(all) + ")")
 elif input.startswith("f"):
     i = input.split("f", 1)[1]
     if i == "" or i == "1": print("Creating a new weapon item JSON...")
