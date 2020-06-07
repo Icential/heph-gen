@@ -91,7 +91,7 @@ if input == "help":
         "suf| Lists all the suffixes\n"
         "adj| Lists all the adjectives\n"
         "obj| lists all the objects/nouns\n"
-        "f| Create a new JSON file with randomly generated weapon specifications\n"
+        "fi| Create i new JSON file with randomly generated weapon specifications. If it's onlt f, create 1 JSON file\n"
         "r| Read the JSON file created beforehand\n"
         "ni| Creates multiple randomly generated names i times (Ex. n10, n9, n45). If it's only n, then 10 randomly generated names are created 10 times"
     )
