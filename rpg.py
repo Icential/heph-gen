@@ -1,10 +1,15 @@
 import random, os, sys, time, json
 
+# Generic breakline output function
 def br(): print("=============================================================================================")
+
+# (ERROR) Generic retry alert function
 def retry(): 
     print("Invalid answer please try again")
     time.sleep(2)
     os.execl(sys.executable, sys.executable, *sys.argv)
+
+# Random name generator based of items in names folder function
 def createName():
     rng = random.randint(1, 2)
     if rng == 1:
@@ -18,12 +23,18 @@ def createName():
     rng0 = random.randint(1, 2)
     if rng0 == 1: return name
     elif rng0 == 2: return "The " + name
+
+# Random array index picker function
 def arrRand(foo): return(foo[random.randint(0, len(foo) - 1)])
+
+# Random damage picker based of weapon tier function
 def createDamage(tier):
     if tier == "Unique": return arrRand(list(range(1, 26)))
     elif tier == "Rare": return arrRand(list(range(26, 51)))
     elif tier == "Legendary": return arrRand(list(range(51, 76)))
     elif tier == "Mythical": return arrRand(list(range(76, 101)))
+
+# Random damage type algorithm sorter function
 def getDamageType():
     rng = random.randint(1, 4)
     if rng == 1: return arrRand(damagetypes)
@@ -39,6 +50,8 @@ def getDamageType():
         dmg1, dmg2, dmg3, dmg4 = arrRand(damagetypes), arrRand(damagetypes), arrRand(damagetypes), arrRand(damagetypes)
         if dmg1 == dmg2 or dmg1 == dmg3 or dmg1 == dmg4 or dmg2 == dmg3 or dmg2 == dmg4 or dmg3 == dmg4: return getDamageType()
         else: return [dmg1, dmg2, dmg3, dmg4]
+
+# Random weapon JSON creating function
 def wjson(i, x):
     f = open("w" + str(i + 1) + ".json", "w")
     name = createName()
@@ -60,6 +73,7 @@ def wjson(i, x):
     else: None
 
 
+# Global objects
 # Prefixes
 with open("names/pre.txt") as f:
     pre = f.read().splitlines()
@@ -72,16 +86,22 @@ with open("names/adj.txt") as f:
 # Objects
 with open("names/obj.txt") as f:
     obj = f.read().splitlines()
+# Et cetera
 tiers = ["Unique", "Rare", "Legendary", "Mythical"]
 types = ["Staff", "Wand", "Foci", "Longsword", "Sword", "Greatbow", "Shortbow", "Mace", "Dagger", "Axe", "Pistol", "Rifle", "Spear", "Relic", "Rifle"]
 damagetypes = ["Dark", "Light", "Physical", "Arcane", "Air", "Lightning", "Fire", "Water", "Air"]
 attackspeed = ["Sluggish", "Slow", "Normal", "Fast", "Rapid"]
 
+
+# Main
 br()
+# Startup message
 print("What would you like to do? (Enter \"help\" for list of commands)")
 br()
 input = input().lower()
 br()
+
+# Help command
 if input == "help":
     print(
         "List of commands:\n\n"
@@ -96,14 +116,24 @@ if input == "help":
         "ni| Creates multiple randomly generated names i times (Ex. n10, n9, n45). If it's only n, then 10 randomly generated names are created 10 times"
     )
     br()
-elif input == "pre": print(pre)
-elif input == "suf": print(suf)
-elif input == "adj": print(adj)
-elif input == "obj": print(obj)
+
+# Names commands
+elif input == "pre": 
+    print(pre)
+elif input == "suf": 
+    print(suf)
+elif input == "adj":
+     print(adj)
+elif input == "obj": 
+    print(obj)
+
+# Chance command (Shows the chance of one weapon name being created)
 elif input == "chance":
     all = 4 * len(pre) * len(suf) * len(adj) * len(obj)
     chance = 1 / all
     print("Each name has a " + str(round(chance, 10)) + "% of being created! (1 in " + str(all) + ")")
+
+# F command (Creates random JSON weapon files as many times you want)
 elif input.startswith("f"):
     i = input.split("f", 1)[1]
     if i == "" or i == "1": print("Creating a new weapon item JSON...")
@@ -118,6 +148,8 @@ elif input.startswith("f"):
             names += jsload["name"] + ", "
         print("Ding ding! " + str(i) + " new items created! (" + names[:-2] + ")")
     else: print(i + " is too many generations!")
+
+# (INCOMPLETE) R commands (Reads the JSON file(s))
 elif input == "r":
     f = open("w1.json", "r").read()
     jsload = json.loads(f)
@@ -131,6 +163,8 @@ elif input == "r":
 
     )
     br()
+
+# N command (Creates random weapon names as many as you like)
 elif input.startswith("n"):
     times = input.split("n", 1)[1]
     names = ""
