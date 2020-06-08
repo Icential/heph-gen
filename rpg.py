@@ -10,7 +10,7 @@ def retry():
     os.execl(sys.executable, sys.executable, *sys.argv)
 
 # Random name generator based of items in names folder function
-def createName():
+def create_name():
     rng = random.randint(1, 2)
     if rng == 1:
         prerng = random.randint(0, len(pre) - 1)
@@ -25,47 +25,47 @@ def createName():
     elif rng0 == 2: return "The " + name
 
 # Random array index picker function
-def arrRand(foo): return(foo[random.randint(0, len(foo) - 1)])
+def rng_arr(foo): return(foo[random.randint(0, len(foo) - 1)])
 
 # Random damage picker based of weapon tier function
-def createDamage(tier):
-    if tier == "Unique": return arrRand(list(range(1, 26)))
-    elif tier == "Rare": return arrRand(list(range(26, 51)))
-    elif tier == "Legendary": return arrRand(list(range(51, 76)))
-    elif tier == "Mythical": return arrRand(list(range(76, 101)))
+def new_dmg(tier):
+    if tier == "Unique": return rng_arr(list(range(1, 26)))
+    elif tier == "Rare": return rng_arr(list(range(26, 51)))
+    elif tier == "Legendary": return rng_arr(list(range(51, 76)))
+    elif tier == "Mythical": return rng_arr(list(range(76, 101)))
 
 # Random damage type algorithm sorter function
-def getDamageType():
+def new_dmg():
     rng = random.randint(1, 4)
-    if rng == 1: return arrRand(damagetypes)
+    if rng == 1: return rng_arr(damagetypes)
     elif rng == 2:
-        dmg1, dmg2 = arrRand(damagetypes), arrRand(damagetypes)
-        if dmg1 == dmg2: return getDamageType()
+        dmg1, dmg2 = rng_arr(damagetypes), rng_arr(damagetypes)
+        if dmg1 == dmg2: return new_dmg()
         else: return [dmg1, dmg2]
     elif rng == 3:
-        dmg1, dmg2, dmg3 = arrRand(damagetypes), arrRand(damagetypes), arrRand(damagetypes)
-        if dmg1 == dmg2 or dmg1 == dmg3 or dmg2 == dmg3: return getDamageType()
+        dmg1, dmg2, dmg3 = rng_arr(damagetypes), rng_arr(damagetypes), rng_arr(damagetypes)
+        if dmg1 == dmg2 or dmg1 == dmg3 or dmg2 == dmg3: return new_dmg()
         else: return [dmg1, dmg2, dmg3]
     elif rng == 4:
-        dmg1, dmg2, dmg3, dmg4 = arrRand(damagetypes), arrRand(damagetypes), arrRand(damagetypes), arrRand(damagetypes)
-        if dmg1 == dmg2 or dmg1 == dmg3 or dmg1 == dmg4 or dmg2 == dmg3 or dmg2 == dmg4 or dmg3 == dmg4: return getDamageType()
+        dmg1, dmg2, dmg3, dmg4 = rng_arr(damagetypes), rng_arr(damagetypes), rng_arr(damagetypes), rng_arr(damagetypes)
+        if dmg1 == dmg2 or dmg1 == dmg3 or dmg1 == dmg4 or dmg2 == dmg3 or dmg2 == dmg4 or dmg3 == dmg4: return new_dmg()
         else: return [dmg1, dmg2, dmg3, dmg4]
 
 # Random weapon JSON creating function
 def wjson(i, x):
     f = open("w" + str(i + 1) + ".json", "w")
-    name = createName()
-    tier = arrRand(tiers)
+    name = create_name()
+    tier = rng_arr(tiers)
     j = {
         "name": name,
         "tier": tier,
-        "type": arrRand(types),
-        "tradeable": arrRand([True, False]),
+        "type": rng_arr(types),
+        "tradeable": rng_arr([True, False]),
         "damage": {
-            "value": createDamage(tier),
-            "types": getDamageType()
+            "value": new_dmg(tier),
+            "types": new_dmg()
         },
-        "attackspeed": arrRand(attackspeed)
+        "attackspeed": rng_arr(attackspeed)
     }
     js = json.dumps(j, indent=4)
     f.write(js)
@@ -170,11 +170,11 @@ elif input.startswith("n"):
     names = ""
     if times == "":
         for n in range(10):
-            names += createName() + ", "
+            names += create_name() + ", "
         print(names[:-2])
     elif int(times) > 0 and int(times) < 101:
         for n in range(int(times)):
-            names += createName() + ", "
+            names += create_name() + ", "
         print(names[:-2])
     else: print(times + " times is too many times!")
 else: retry()
